@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dulce Cactus · Galletas</title>
+<meta name="description" content="Galletas artesanales Dulce Cactus. Haz tu pedido por WhatsApp.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌵%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --crema:#fff8ef;
+    --verde-claro:#d6efd9;
+    --verde:#a8d8b2;
+    --verde-medio:#7cc290;
+    --verde-boton:#4fae6f;
+    --verde-boton-hover:#3f9a5e;
+    --verde-oscuro:#2f6b43;
+    --naranja-claro:#ffe3c9;
+    --naranja:#ffc596;
+    --naranja-medio:#f5a66b;
+    --cafe:#6b4a35;
+    --texto:#3d3a35;
+    --sombra:0 6px 18px rgba(80,120,90,.15);
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:'Nunito',system-ui,sans-serif;
+    color:var(--texto);
+    background:linear-gradient(180deg,var(--crema) 0%, #fdf1e4 100%);
+    min-height:100vh;
+    overflow-x:hidden;
+  }
+
+  /* ---------- Decoración de fondo ---------- */
+  .fondo{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
+  .fondo svg{position:absolute;opacity:.22}
+
+  /* ---------- Encabezado ---------- */
+  header{
+    position:relative;z-index:2;
+    background:linear-gradient(135deg,var(--verde-claro),var(--naranja-claro));
+    border-bottom:3px dashed var(--verde-medio);
+    padding:18px 16px 14px;
+    display:flex;align-items:center;justify-content:center;gap:14px;
+    box-shadow:var(--sombra);
+  }
+  .logo{width:96px;height:96px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.12))}
+  .marca h1{
+    font-family:'Baloo 2',cursive;font-weight:800;
+    font-size:2.1rem;line-height:1;color:var(--verde-oscuro);
+    letter-spacing:.5px;
+  }
+  .marca h1 span{color:var(--naranja-medio)}
+  .marca p{font-size:.95rem;color:var(--cafe);margin-top:4px;font-weight:600}
+
+  /* ---------- Pestañas ---------- */
+  nav{
+    position:sticky;top:0;z-index:5;
+    display:flex;gap:10px;justify-content:center;
+    padding:12px 16px;
+    background:rgba(255,248,239,.92);
+    backdrop-filter:blur(6px);
+  }
+  .tab{
+    flex:1;max-width:220px;
+    font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:700;
+    padding:10px 14px;border:2px solid var(--verde-medio);
+    border-radius:14px;background:#fff;color:var(--verde-oscuro);
+    cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;
+  }
+  .tab.activa{background:var(--verde);border-color:var(--verde);box-shadow:var(--sombra)}
+  .contador{
+    background:var(--naranja-medio);color:#fff;font-size:.85rem;
+    min-width:24px;height:24px;border-radius:12px;padding:0 7px;
+    display:inline-flex;align-items:center;justify-content:center;
+  }
+  .contador.oculto{display:none}
+
+  main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:10px 16px 60px}
+  .seccion{display:none;animation:aparecer .3s ease}
+  .seccion.activa{display:block}
+  @keyframes aparecer{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+
+  .titulo-seccion{
+    font-family:'Baloo 2',cursive;font-size:1.6rem;color:var(--verde-oscuro);
+    text-align:center;margin:10px 0 16px;
+  }
+
+  /* ---------- Tarjetas del menú ---------- */
+  .producto{
+    background:#fff;border-radius:22px;box-shadow:var(--sombra);
+    overflow:hidden;margin-bottom:20px;
+    border:2px solid var(--naranja-claro);
+  }
+  .producto .foto{
+    background:radial-gradient(circle at 50% 55%,#fff 0%,var(--naranja-claro) 70%);
+    display:flex;align-items:center;justify-content:center;
+    height:210px;
+  }
+  .producto .foto svg{width:180px;height:180px;filter:drop-shadow(0 8px 10px rgba(107,74,53,.25))}
+  .producto .info{padding:16px 18px 18px}
+  .producto h3{font-family:'Baloo 2',cursive;font-size:1.45rem;color:var(--verde-oscuro)}
+  .producto .desc{margin:6px 0 14px;line-height:1.45;font-size:.98rem}
+  .fila-compra{display:flex;align-items:center;justify-content:space-between;gap:12px}
+  .precio{font-family:'Baloo 2',cursive;font-size:1.5rem;font-weight:800;color:var(--naranja-medio)}
+  .precio small{font-size:.8rem;color:var(--cafe);font-weight:600}
+
+  .btn{
+    border:none;cursor:pointer;
+    border-radius:14px;
+    font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;
+    padding:12px 20px;transition:.15s;
+  }
+  .btn-verde{background:var(--verde-boton);color:#fff;box-shadow:0 4px 0 var(--verde-boton-hover)}
+  .btn-verde:hover{background:var(--verde-boton-hover)}
+  .btn-verde:active{transform:translateY(3px);box-shadow:0 1px 0 var(--verde-boton-hover)}
+  .btn-verde.agregado{background:var(--naranja-medio);box-shadow:0 4px 0 #d98a50}
+
+  /* ---------- Carrito ---------- */
+  .carrito-cabecera{text-align:center;margin:6px 0 10px}
+  .carrito-cabecera svg{width:120px;height:120px}
+  .carrito-caja{
+    background:#fff;border-radius:22px;box-shadow:var(--sombra);
+    padding:18px;border:2px solid var(--verde-claro);
+  }
+  .carrito-grid{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
+  .carrito-caja h3{font-family:'Baloo 2',cursive;font-size:1.3rem;color:var(--verde-oscuro);margin-bottom:8px}
+  .lista{list-style:none}
+  .lista li{
+    display:flex;align-items:center;justify-content:space-between;gap:8px;
+    padding:10px 0;border-bottom:1px dashed var(--verde);
+  }
+  .lista li:last-child{border-bottom:none}
+  .item-nombre{font-weight:700}
+  .item-cant{display:flex;align-items:center;gap:6px;margin-top:4px}
+  .mini{
+    width:28px;height:28px;border-radius:9px;border:2px solid var(--verde-medio);
+    background:#fff;color:var(--verde-oscuro);font-weight:800;cursor:pointer;font-size:1rem;line-height:1;
+  }
+  .item-precio{font-weight:800;color:var(--naranja-medio);white-space:nowrap}
+  .total-caja{
+    background:var(--naranja-claro);border-radius:16px;padding:14px 16px;text-align:center;min-width:140px;
+  }
+  .total-caja span{display:block;font-weight:700;color:var(--cafe)}
+  .total-caja strong{font-family:'Baloo 2',cursive;font-size:1.8rem;color:var(--verde-oscuro)}
+  .vacio{text-align:center;padding:14px 0;color:#8a8278}
+  .ordenar{width:100%;margin-top:18px;font-size:1.15rem;padding:15px;display:flex;align-items:center;justify-content:center;gap:10px}
+  .ordenar{text-decoration:none}
+  .ordenar.desactivado{background:#bcd9c5;box-shadow:none;cursor:not-allowed;pointer-events:none}
+  .nota{text-align:center;font-size:.85rem;color:#8a8278;margin-top:10px}
+
+  footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.85rem;color:var(--cafe)}
+
+  .toast{
+    position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);
+    background:var(--verde-oscuro);color:#fff;padding:12px 20px;border-radius:14px;
+    font-weight:700;z-index:20;transition:.3s;box-shadow:var(--sombra);opacity:0;
+  }
+  .toast.ver{transform:translateX(-50%) translateY(0);opacity:1}
+
+  @media (max-width:520px){
+    .logo{width:80px;height:80px}
+    .marca h1{font-size:1.75rem}
+    .carrito-grid{grid-template-columns:1fr}
+    .total-caja{display:flex;justify-content:space-between;align-items:center}
+  }
+</style>
+</head>
+<body>
+
+<!-- Decoración de fondo: cactus y galletas dibujados -->
+<div class="fondo" aria-hidden="true" id="fondo"></div>
+
+<header>
+  <!-- LOGO -->
+  <svg class="logo" viewBox="0 0 200 200" role="img" aria-label="Logo Dulce Cactus">
+    <defs>
+      <!-- arco superior (izquierda → derecha por arriba) -->
+      <path id="arcoArriba" d="M 30 100 A 70 70 0 0 1 170 100"/>
+      <!-- arco inferior (izquierda → derecha por abajo) -->
+      <path id="arcoAbajo" d="M 19 100 A 81 81 0 0 0 181 100"/>
+    </defs>
+    <circle cx="100" cy="100" r="96" fill="#ffe3c9" stroke="#7cc290" stroke-width="6"/>
+    <circle cx="100" cy="100" r="58" fill="#fff8ef" stroke="#f5a66b" stroke-width="3" stroke-dasharray="4 5"/>
+    <!-- texto -->
+    <text font-family="Baloo 2, cursive" font-weight="800" font-size="27" fill="#2f6b43" letter-spacing="4">
+      <textPath href="#arcoArriba" startOffset="50%" text-anchor="middle">DULCE</textPath>
+    </text>
+    <text font-family="Baloo 2, cursive" font-weight="800" font-size="27" fill="#2f6b43" letter-spacing="4">
+      <textPath href="#arcoAbajo" startOffset="50%" text-anchor="middle">CACTUS</textPath>
+    </text>
+    <!-- puntos separadores -->
+    <circle cx="20" cy="100" r="5" fill="#f5a66b"/>
+    <circle cx="180" cy="100" r="5" fill="#f5a66b"/>
+    <!-- cactus en maceta -->
+    <g transform="translate(100 102)">
+      <!-- brazos -->
+      <path d="M-14 -2 h-10 a6 6 0 0 1 -6 -6 v-14 a5 5 0 0 1 10 0 v10 h6" fill="#7cc290" stroke="#2f6b43" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M14 -8 h10 a6 6 0 0 0 6 -6 v-10 a5 5 0 0 0 -10 0 v6 h-6" fill="#7cc290" stroke="#2f6b43" stroke-width="2.5" stroke-linejoin="round"/>
+      <!-- tronco -->
+      <rect x="-15" y="-40" width="30" height="58" rx="15" fill="#7cc290" stroke="#2f6b43" stroke-width="2.5"/>
+      <line x1="-6" y1="-32" x2="-6" y2="14" stroke="#5aa671" stroke-width="2"/>
+      <line x1="6" y1="-32" x2="6" y2="14" stroke="#5aa671" stroke-width="2"/>
+      <!-- flor -->
+      <circle cx="0" cy="-41" r="4" fill="#f5a66b"/>
+      <!-- corazón -->
+      <path d="M0 -6 C -9 -14 -14 -4 0 6 C 14 -4 9 -14 0 -6 Z" fill="#ff8a8a" stroke="#d65c5c" stroke-width="1.5"/>
+      <!-- maceta -->
+      <path d="M-22 16 h44 l-6 26 h-32 z" fill="#f5a66b" stroke="#b9703c" stroke-width="2.5" stroke-linejoin="round"/>
+      <rect x="-25" y="12" width="50" height="9" rx="3" fill="#ffc596" stroke="#b9703c" stroke-width="2.5"/>
+    </g>
+  </svg>
+  <div class="marca">
+    <h1>Dulce <span>Cactus</span></h1>
+    <p>Galletas hechas con amor 🌵</p>
+  </div>
+</header>
+
+<nav>
+  <button class="tab activa" data-tab="menu">🍪 Menú</button>
+  <button class="tab" data-tab="carrito">🛒 Carrito <span class="contador oculto" id="contador">0</span></button>
+</nav>
+
+<main>
+  <!-- ============ MENÚ ============ -->
+  <section class="seccion activa" id="menu">
+    <h2 class="titulo-seccion">Nuestras galletas</h2>
+    <div id="listaProductos"></div>
+  </section>
+
+  <!-- ============ CARRITO ============ -->
+  <section class="seccion" id="carrito">
+    <div class="carrito-cabecera">
+      <svg viewBox="0 0 120 120" aria-label="Carrito">
+        <circle cx="60" cy="60" r="56" fill="#d6efd9"/>
+        <path d="M18 34 h12 l10 42 h46 l10 -32 H35" fill="none" stroke="#2f6b43" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M38 44 h56 l-8 28 H44 z" fill="#ffc596"/>
+        <circle cx="50" cy="56" r="7" fill="#c98d5c"/><circle cx="48" cy="54" r="1.6" fill="#5a3a26"/><circle cx="53" cy="58" r="1.6" fill="#5a3a26"/>
+        <circle cx="68" cy="54" r="7" fill="#e3b77f"/><circle cx="66" cy="53" r="1.6" fill="#a5714a"/>
+        <circle cx="82" cy="57" r="6" fill="#f4d9a8"/><circle cx="81" cy="56" r="1.8" fill="#d6455d"/>
+        <circle cx="48" cy="88" r="6" fill="#2f6b43"/><circle cx="80" cy="88" r="6" fill="#2f6b43"/>
+      </svg>
+      <h2 class="titulo-seccion" style="margin:0">Tu carrito</h2>
+    </div>
+
+    <div class="carrito-caja">
+      <div class="carrito-grid">
+        <div>
+          <h3>Productos:</h3>
+          <ul class="lista" id="listaCarrito"></ul>
+        </div>
+        <div class="total-caja">
+          <span>Precio total:</span>
+          <strong id="total">$0</strong>
+        </div>
+      </div>
+      <a class="btn btn-verde ordenar desactivado" id="ordenar" href="#" target="_blank" rel="noopener" aria-disabled="true">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.2-.2-.4-.3z"/></svg>
+        Ordenar pedido
+      </a>
+      <p class="nota">Te llevaremos a WhatsApp con tu pedido listo para enviar 💚</p>
+    </div>
+  </section>
+</main>
+
+<footer>© Dulce Cactus · Hecho con 💚</footer>
+<div class="toast" id="toast"></div>
+
+<script>
+  // ======= CONFIGURACIÓN =======
+  const WHATSAPP = "529214391165"; // +52 1 921 439 1165
+
+  // Imágenes de las galletas (SVG ilustrado). Para usar fotos reales,
+  // pon la ruta de la imagen en "foto", ej: foto: "img/chocolate.jpg"
+  const svgGalleta = (masa, borde, chispas) => `
+    <svg viewBox="0 0 200 200">
+      <path d="M100 18c18 0 22 10 38 14s30 10 36 28-4 26 0 42 6 32-8 46-30 10-44 20-26 16-42 12-22-14-38-20-28-12-30-30 6-26 2-42-6-30 6-44 28-10 44-18 18-8 36-8z" fill="${masa}" stroke="${borde}" stroke-width="5"/>
+      <path d="M60 60c10-6 22-8 34-6M140 140c-8 6-20 10-32 10" stroke="${borde}" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/>
+      ${chispas}
+    </svg>`;
+
+  const PRODUCTOS = [
+    {
+      id: "chocolate",
+      nombre: "Galleta de Chocolate",
+      desc: "Suave por dentro y crujiente en la orilla, llena de chispas de chocolate semiamargo que se derriten en cada mordida.",
+      precio: 35,
+      img: svgGalleta("#c98d5c", "#8a5a37", `
+        <g fill="#4a2c1a">
+          <path d="M70 70l10-6 8 8-6 10-12-2z"/><path d="M120 60l12 2 2 12-10 6-8-8z"/>
+          <path d="M140 105l10 4-2 12-12 2-4-10z"/><path d="M90 110l10-4 8 8-4 12-12-2z"/>
+          <path d="M60 125l8-6 10 6-2 10-10 2z"/><path d="M110 140l10-2 6 10-8 8-10-6z"/>
+          <path d="M98 40l8 2 0 10-10 2-4-8z"/><path d="M45 95l8-2 4 8-6 8-8-4z"/>
+        </g>`)
+    },
+    {
+      id: "avena",
+      nombre: "Galleta de Avena",
+      desc: "Avena tostada con un toque de canela y azúcar morena. Calientita, rústica y perfecta para acompañar tu café o leche.",
+      precio: 30,
+      img: svgGalleta("#e3b77f", "#a5714a", `
+        <g fill="#f6e2bd" stroke="#c89660" stroke-width="2">
+          <ellipse cx="70" cy="70" rx="10" ry="5" transform="rotate(-25 70 70)"/>
+          <ellipse cx="125" cy="65" rx="9" ry="5" transform="rotate(30 125 65)"/>
+          <ellipse cx="100" cy="100" rx="10" ry="5" transform="rotate(10 100 100)"/>
+          <ellipse cx="140" cy="115" rx="9" ry="5" transform="rotate(-40 140 115)"/>
+          <ellipse cx="65" cy="120" rx="10" ry="5" transform="rotate(45 65 120)"/>
+          <ellipse cx="105" cy="145" rx="9" ry="5" transform="rotate(-15 105 145)"/>
+          <ellipse cx="95" cy="45" rx="8" ry="4" transform="rotate(20 95 45)"/>
+        </g>
+        <g fill="#8a5a37"><circle cx="85" cy="80" r="3"/><circle cx="120" cy="90" r="3"/><circle cx="80" cy="140" r="3"/><circle cx="135" cy="140" r="3"/></g>`)
+    },
+    {
+      id: "frutos-rojos",
+      nombre: "Galleta de Frutos Rojos",
+      desc: "Masa de vainilla con trocitos de fresa, frambuesa y arándano, con chocolate blanco. Dulce, frutal y súper suave.",
+      precio: 40,
+      img: svgGalleta("#f4d9a8", "#c79a5e", `
+        <g fill="#d6455d"><circle cx="72" cy="72" r="9"/><circle cx="130" cy="110" r="9"/><circle cx="95" cy="140" r="8"/></g>
+        <g fill="#8e3b7a"><circle cx="125" cy="62" r="8"/><circle cx="62" cy="118" r="8"/><circle cx="145" cy="140" r="6"/></g>
+        <g fill="#fffaf0" stroke="#e8d7b8" stroke-width="2"><rect x="95" y="90" width="12" height="10" rx="2"/><rect x="80" y="50" width="11" height="9" rx="2"/><rect x="115" y="140" width="10" height="9" rx="2"/></g>
+        <g fill="#fff" opacity=".6"><circle cx="69" cy="69" r="2.5"/><circle cx="127" cy="107" r="2.5"/></g>`)
+    }
+  ];
+
+  // ======= ESTADO DEL CARRITO =======
+  let carrito = {};
+  try { carrito = JSON.parse(localStorage.getItem("dc_carrito")) || {}; } catch(e) { carrito = {}; }
+  const guardar = () => { try { localStorage.setItem("dc_carrito", JSON.stringify(carrito)); } catch(e) {} };
+  const dinero = n => "$" + n.toLocaleString("es-MX") + " MXN";
+
+  // ======= PINTAR MENÚ =======
+  const listaProductos = document.getElementById("listaProductos");
+  listaProductos.innerHTML = PRODUCTOS.map(p => `
+    <article class="producto">
+      <div class="foto">${p.foto ? `<img src="${p.foto}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover">` : p.img}</div>
+      <div class="info">
+        <h3>${p.nombre}</h3>
+        <p class="desc">${p.desc}</p>
+        <div class="fila-compra">
+          <div class="precio">$${p.precio} <small>MXN</small></div>
+          <button class="btn btn-verde" data-agregar="${p.id}">Agregar al carrito</button>
+        </div>
+      </div>
+    </article>`).join("");
+
+  listaProductos.addEventListener("click", e => {
+    const b = e.target.closest("[data-agregar]");
+    if (!b) return;
+    const id = b.dataset.agregar;
+    carrito[id] = (carrito[id] || 0) + 1;
+    guardar(); pintarCarrito();
+    const p = PRODUCTOS.find(x => x.id === id);
+    aviso(`${p.nombre} agregada 🛒`);
+    b.classList.add("agregado"); b.textContent = "¡Agregado! ✓";
+    setTimeout(() => { b.classList.remove("agregado"); b.textContent = "Agregar al carrito"; }, 1100);
+  });
+
+  // ======= PINTAR CARRITO =======
+  const listaCarrito = document.getElementById("listaCarrito");
+  function pintarCarrito(){
+    const items = PRODUCTOS.filter(p => carrito[p.id] > 0);
+    let total = 0, piezas = 0;
+    if (!items.length) {
+      listaCarrito.innerHTML = `<li class="vacio">Tu carrito está vacío.<br>¡Agrega unas galletas desde el menú! 🍪</li>`;
+    } else {
+      listaCarrito.innerHTML = items.map(p => {
+        const c = carrito[p.id], sub = c * p.precio;
+        total += sub; piezas += c;
+        return `<li>
+          <div>
+            <div class="item-nombre">${p.nombre}</div>
+            <div class="item-cant">
+              <button class="mini" data-menos="${p.id}" aria-label="Quitar uno">−</button>
+              <span>${c}</span>
+              <button class="mini" data-mas="${p.id}" aria-label="Agregar uno">+</button>
+              <small style="color:#8a8278">× $${p.precio}</small>
+            </div>
+          </div>
+          <div class="item-precio">${dinero(sub)}</div>
+        </li>`;
+      }).join("");
+    }
+    document.getElementById("total").textContent = dinero(total);
+    const btnOrdenar = document.getElementById("ordenar");
+    btnOrdenar.classList.toggle("desactivado", !items.length);
+    btnOrdenar.setAttribute("aria-disabled", String(!items.length));
+    btnOrdenar.href = items.length ? linkWhatsApp(items, total) : "#";
+    const cont = document.getElementById("contador");
+    cont.textContent = piezas; cont.classList.toggle("oculto", piezas === 0);
+  }
+  listaCarrito.addEventListener("click", e => {
+    const mas = e.target.closest("[data-mas]"), menos = e.target.closest("[data-menos]");
+    if (mas) carrito[mas.dataset.mas]++;
+    if (menos) { const id = menos.dataset.menos; carrito[id]--; if (carrito[id] <= 0) delete carrito[id]; }
+    if (mas || menos) { guardar(); pintarCarrito(); }
+  });
+
+  // ======= ORDENAR POR WHATSAPP =======
+  function linkWhatsApp(items, total){
+    const lineas = items.map(p => `• ${carrito[p.id]} x ${p.nombre} — $${carrito[p.id] * p.precio}`);
+    const msg = `¡Hola Dulce Cactus! 🌵🍪\nQuiero hacer este pedido:\n\n${lineas.join("\n")}\n\n*Total: $${total} MXN*\n\n¿Me confirmas disponibilidad y entrega? ¡Gracias!`;
+    return `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`;
+  }
+
+  // ======= PESTAÑAS =======
+  document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
+    document.querySelectorAll(".tab").forEach(x => x.classList.toggle("activa", x === t));
+    document.querySelectorAll(".seccion").forEach(s => s.classList.toggle("activa", s.id === t.dataset.tab));
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }));
+
+  // ======= AVISO =======
+  let tAviso;
+  function aviso(txt){
+    const el = document.getElementById("toast");
+    el.textContent = txt; el.classList.add("ver");
+    clearTimeout(tAviso); tAviso = setTimeout(() => el.classList.remove("ver"), 1600);
+  }
+
+  // ======= DECORACIÓN DE FONDO =======
+  const cactusDoodle = c => `<svg viewBox="0 0 60 90" width="${c.s}" style="left:${c.x}%;top:${c.y}%;transform:rotate(${c.r}deg)">
+      <path d="M22 80V20a8 8 0 0 1 16 0v60M22 50h-8a6 6 0 0 1-6-6V32a4 4 0 0 1 8 0v8h6M38 40h8a6 6 0 0 0 6-6V26a4 4 0 0 0-8 0v6h-6" fill="#a8d8b2" stroke="#4f8f62" stroke-width="2.5" stroke-linejoin="round"/>
+      <path d="M14 78h32l-4 12H18z" fill="#ffc596" stroke="#c98552" stroke-width="2.5"/></svg>`;
+  const galletaDoodle = c => `<svg viewBox="0 0 60 60" width="${c.s}" style="left:${c.x}%;top:${c.y}%;transform:rotate(${c.r}deg)">
+      <circle cx="30" cy="30" r="25" fill="#ffd9b0" stroke="#c98552" stroke-width="2.5" stroke-dasharray="6 2"/>
+      <circle cx="22" cy="22" r="3.5" fill="#8a5a37"/><circle cx="38" cy="26" r="3" fill="#8a5a37"/>
+      <circle cx="28" cy="40" r="3.5" fill="#8a5a37"/><circle cx="40" cy="40" r="2.5" fill="#8a5a37"/></svg>`;
+  const deco = [
+    {t:"c",x:2,y:18,s:70,r:-10},{t:"g",x:85,y:12,s:60,r:15},{t:"g",x:6,y:52,s:52,r:-20},
+    {t:"c",x:88,y:45,s:80,r:8},{t:"c",x:4,y:82,s:64,r:12},{t:"g",x:82,y:80,s:66,r:-12},
+    {t:"g",x:45,y:92,s:46,r:20},{t:"c",x:50,y:4,s:46,r:-6}
+  ];
+  document.getElementById("fondo").innerHTML = deco.map(d => d.t === "c" ? cactusDoodle(d) : galletaDoodle(d)).join("");
+
+  pintarCarrito();
+</script>
+</body>
+</html>
