@@ -70,20 +70,21 @@
     font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:700;
     padding:10px 14px;border:2px solid var(--verde-medio);
     border-radius:14px;background:#fff;color:var(--verde-oscuro);
-    cursor:pointer;transition:.2s;display:flex;align-items:center;justify-content:center;gap:8px;
+    cursor:pointer;transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,transform .25s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;justify-content:center;gap:8px;
   }
   .tab.activa{background:var(--verde);border-color:var(--verde);box-shadow:var(--sombra)}
   .contador{
     background:var(--naranja-medio);color:#fff;font-size:.85rem;
     min-width:24px;height:24px;border-radius:12px;padding:0 7px;
     display:inline-flex;align-items:center;justify-content:center;
+    transition:transform .2s cubic-bezier(.34,1.56,.64,1);
   }
   .contador.oculto{display:none}
 
   main{position:relative;z-index:1;max-width:760px;margin:0 auto;padding:10px 16px 60px}
-  .seccion{display:none;animation:aparecer .3s ease}
+  .seccion{display:none;animation:aparecer .45s cubic-bezier(.22,1,.36,1)}
   .seccion.activa{display:block}
-  @keyframes aparecer{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  @keyframes aparecer{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
 
   .titulo-seccion{
     font-family:'Baloo 2',cursive;font-size:1.6rem;color:var(--verde-oscuro);
@@ -113,7 +114,7 @@
     border:none;cursor:pointer;
     border-radius:14px;
     font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;
-    padding:12px 20px;transition:.15s;
+    padding:12px 20px;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .18s ease,box-shadow .18s ease;
   }
   .btn-verde{background:var(--verde-boton);color:#fff;box-shadow:0 4px 0 var(--verde-boton-hover)}
   .btn-verde:hover{background:var(--verde-boton-hover)}
@@ -191,9 +192,40 @@
   .toast{
     position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);
     background:var(--verde-oscuro);color:#fff;padding:12px 20px;border-radius:14px;
-    font-weight:700;z-index:20;transition:.3s;box-shadow:var(--sombra);opacity:0;
+    font-weight:700;z-index:20;box-shadow:var(--sombra);opacity:0;
+    transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;
   }
   .toast.ver{transform:translateX(-50%) translateY(0);opacity:1}
+
+  /* ---------- Animaciones al agregar ---------- */
+  /* Galleta que vuela hacia el carrito */
+  .galleta-vuela{
+    position:fixed;z-index:30;pointer-events:none;width:70px;height:70px;
+    will-change:transform,opacity;filter:drop-shadow(0 6px 10px rgba(107,74,53,.35));
+  }
+  .galleta-vuela svg,.galleta-vuela img{width:100%;height:100%;display:block}
+
+  /* Pulso del contador cuando llega una galleta */
+  @keyframes bumpContador{0%{transform:scale(1)}35%{transform:scale(1.5)}60%{transform:scale(.85)}100%{transform:scale(1)}}
+  .contador.bump{animation:bumpContador .55s cubic-bezier(.34,1.56,.64,1)}
+
+  /* Pop de la imagen de la galleta al agregar */
+  @keyframes popFoto{0%{transform:scale(1) rotate(0)}40%{transform:scale(1.1) rotate(-4deg)}70%{transform:scale(.97) rotate(2deg)}100%{transform:scale(1) rotate(0)}}
+  .foto.pop svg,.foto.pop img{animation:popFoto .5s cubic-bezier(.34,1.56,.64,1)}
+
+  /* Pop rápido del botón */
+  @keyframes popBtn{0%{transform:scale(1)}45%{transform:scale(1.07)}100%{transform:scale(1)}}
+  .btn-verde.pop{animation:popBtn .35s cubic-bezier(.34,1.56,.64,1)}
+
+  /* La pestaña del carrito "recibe" la galleta */
+  @keyframes recibe{0%{transform:scale(1)}40%{transform:scale(1.13)}100%{transform:scale(1)}}
+  .tab.recibe{animation:recibe .5s cubic-bezier(.34,1.56,.64,1)}
+
+  /* Respeta a quien prefiere menos movimiento */
+  @media (prefers-reduced-motion: reduce){
+    *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;transition-duration:.001ms!important}
+    .galleta-vuela{display:none!important}
+  }
 
   @media (max-width:520px){
     .logo{width:80px;height:80px}
@@ -494,6 +526,51 @@
       </div>
     </article>`).join("");
 
+  const menosMovimiento = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+  // Reinicia una animación CSS para poder repetirla
+  const reanimar = (el, clase) => {
+    if (!el) return;
+    el.classList.remove(clase); void el.offsetWidth; el.classList.add(clase);
+  };
+
+  // Pulso del contador del carrito
+  function latirContador(){
+    reanimar(document.getElementById("contador"), "bump");
+  }
+
+  // Galleta que vuela desde la foto del producto hasta la pestaña del carrito
+  function volarAlCarrito(origen, p){
+    const tab = document.querySelector('.tab[data-tab="carrito"]');
+    if (menosMovimiento || !origen || !tab) { latirContador(); return; }
+    const o = origen.getBoundingClientRect();
+    const t = tab.getBoundingClientRect();
+    const sx = o.left + o.width / 2, sy = o.top + o.height / 2;
+    const tx = t.left + t.width / 2, ty = t.top + t.height / 2;
+
+    const fly = document.createElement("div");
+    fly.className = "galleta-vuela";
+    fly.innerHTML = p.foto
+      ? `<img src="${p.foto}" alt="" style="object-fit:cover;border-radius:50%">`
+      : p.img;
+    fly.style.left = (sx - 35) + "px";
+    fly.style.top  = (sy - 35) + "px";
+    document.body.appendChild(fly);
+
+    const dx = tx - sx, dy = ty - sy;
+    const anim = fly.animate([
+      { transform: "translate(0,0) scale(1) rotate(0deg)", opacity: 1, offset: 0 },
+      { transform: `translate(${dx * 0.5}px, ${dy * 0.5 - 90}px) scale(.8) rotate(200deg)`, opacity: 1, offset: 0.55 },
+      { transform: `translate(${dx}px, ${dy}px) scale(.22) rotate(400deg)`, opacity: .25, offset: 1 }
+    ], { duration: 720, easing: "cubic-bezier(.45,0,.5,1)" });
+
+    anim.onfinish = () => {
+      fly.remove();
+      reanimar(tab, "recibe");
+      latirContador();
+    };
+  }
+
   listaProductos.addEventListener("click", e => {
     const b = e.target.closest("[data-agregar]");
     if (!b) return;
@@ -503,6 +580,11 @@
     const p = PRODUCTOS.find(x => x.id === id);
     aviso(`${p.nombre} agregada 🛒`);
     b.classList.add("agregado"); b.textContent = "¡Agregado! ✓";
+    // Animaciones de feedback
+    reanimar(b, "pop");
+    const foto = b.closest(".producto").querySelector(".foto");
+    reanimar(foto, "pop");
+    volarAlCarrito(foto, p);
     setTimeout(() => { b.classList.remove("agregado"); b.textContent = "Agregar al carrito"; }, 1100);
   });
 
@@ -552,7 +634,7 @@
       delete carrito[borrar.dataset.borrar];
       aviso(`${p.nombre} eliminada 🗑️`);
     }
-    if (mas || menos || borrar) { guardar(); pintarCarrito(); }
+    if (mas || menos || borrar) { guardar(); pintarCarrito(); latirContador(); }
   });
 
   // ======= ORDENAR POR WHATSAPP =======
