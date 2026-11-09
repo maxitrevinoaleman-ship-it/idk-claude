@@ -8,9 +8,22 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E🌵%3C/text%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<meta name="theme-color" content="#fff8ef" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#16130f" media="(prefers-color-scheme: dark)">
+<script>
+  /* Aplica el tema antes de pintar para evitar parpadeo */
+  (function(){
+    try{
+      var t = localStorage.getItem('dc_tema');
+      if(!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
+      document.documentElement.setAttribute('data-tema', t);
+    }catch(e){}
+  })();
+</script>
 <style>
   :root{
+    color-scheme:light;
     --crema:#fff8ef;
     --verde-claro:#d6efd9;
     --verde:#a8d8b2;
@@ -23,31 +36,97 @@
     --naranja-medio:#f5a66b;
     --cafe:#6b4a35;
     --texto:#3d3a35;
+    --texto-suave:#8a8278;
+    /* superficies y acentos (cambian con el tema) */
+    --bg-1:#fff8ef;
+    --bg-2:#fdf1e4;
+    --superficie:#ffffff;
+    --nav-bg:rgba(255,248,239,.72);
+    --borde-card:#ffe3c9;
+    --borde-card-2:#d6efd9;
+    --header-grad-1:#d6efd9;
+    --header-grad-2:#ffe3c9;
+    --foto-grad-1:#ffffff;
+    --foto-grad-2:#ffe3c9;
+    --caja-acento:#ffe3c9;
+    --titulo:#2f6b43;
     --sombra:0 6px 18px rgba(80,120,90,.15);
+    --sombra-sm:0 2px 8px rgba(80,120,90,.12);
+  }
+  /* ---------- Modo oscuro ---------- */
+  html[data-tema="oscuro"]{
+    color-scheme:dark;
+    --crema:#1a1714;
+    --verde-claro:#213a2b;
+    --verde:#2f5740;
+    --verde-medio:#49936a;
+    --verde-boton:#56b97a;
+    --verde-boton-hover:#469a65;
+    --verde-oscuro:#8fe0ac;
+    --naranja-claro:#3a2a1e;
+    --naranja:#c98a56;
+    --naranja-medio:#f0a868;
+    --cafe:#c9b6a5;
+    --texto:#ece6df;
+    --texto-suave:#a89f94;
+    --bg-1:#16130f;
+    --bg-2:#1d1915;
+    --superficie:#242019;
+    --nav-bg:rgba(26,23,20,.72);
+    --borde-card:#3a3228;
+    --borde-card-2:#2f3b31;
+    --header-grad-1:#20321f;
+    --header-grad-2:#2f2418;
+    --foto-grad-1:#2c271f;
+    --foto-grad-2:#1f1b15;
+    --caja-acento:#33281d;
+    --titulo:#8fe0ac;
+    --sombra:0 8px 22px rgba(0,0,0,.45);
+    --sombra-sm:0 2px 10px rgba(0,0,0,.4);
+  }
+  html{transition:background-color .3s ease}
+  html,body,.producto,.tab,.carrito-caja,.legal,.mini,.total-caja,.info-compra,.tema-btn,nav{
+    transition-property:background,background-color,border-color,color,box-shadow;
+    transition-duration:.3s;transition-timing-function:ease;
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{min-height:100%}
   body{
-    font-family:'Nunito',system-ui,sans-serif;
+    font-family:'Rubik',system-ui,sans-serif;
     color:var(--texto);
-    background:linear-gradient(180deg,var(--crema) 0%, #fdf1e4 100%);
+    background:linear-gradient(180deg,var(--bg-1) 0%, var(--bg-2) 100%);
     min-height:100vh;
     overflow-x:hidden;
   }
 
   /* ---------- Decoración de fondo ---------- */
   .fondo{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .fondo svg{position:absolute;opacity:.22}
+  .fondo svg{position:absolute;opacity:.22;transition:opacity .3s ease}
+  html[data-tema="oscuro"] .fondo svg{opacity:.10}
 
   /* ---------- Encabezado ---------- */
   header{
     position:relative;z-index:2;
-    background:linear-gradient(135deg,var(--verde-claro),var(--naranja-claro));
+    background:linear-gradient(135deg,var(--header-grad-1),var(--header-grad-2));
     border-bottom:3px dashed var(--verde-medio);
     padding:18px 16px 14px;
     display:flex;align-items:center;justify-content:center;gap:14px;
     box-shadow:var(--sombra);
   }
+  /* Botón de tema claro/oscuro */
+  .tema-btn{
+    position:absolute;top:14px;right:14px;z-index:3;
+    width:44px;height:44px;border-radius:50%;
+    border:2px solid var(--verde-medio);
+    background:var(--superficie);
+    cursor:pointer;font-size:1.3rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--sombra-sm);
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .3s ease,border-color .3s ease;
+  }
+  .tema-btn:hover{transform:scale(1.1) rotate(-10deg)}
+  .tema-btn:active{transform:scale(.9)}
+  @media (max-width:520px){.tema-btn{top:10px;right:10px;width:40px;height:40px;font-size:1.15rem}}
   .logo{width:96px;height:96px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.12))}
   .marca h1{
     font-family:'Baloo 2',cursive;font-weight:800;
@@ -60,16 +139,22 @@
   /* ---------- Pestañas ---------- */
   nav{
     position:sticky;top:0;z-index:5;
-    display:flex;gap:10px;justify-content:center;
+    display:flex;gap:10px;justify-content:center;align-items:center;
     padding:12px 16px;
-    background:rgba(255,248,239,.92);
-    backdrop-filter:blur(6px);
+    background:var(--nav-bg);
+    -webkit-backdrop-filter:blur(14px) saturate(160%);
+    backdrop-filter:blur(14px) saturate(160%);
+    border-bottom:1px solid var(--borde-card);
+  }
+  /* Respaldo si el navegador no soporta backdrop-filter */
+  @supports not ((backdrop-filter:blur(1px)) or (-webkit-backdrop-filter:blur(1px))){
+    nav{background:var(--bg-1)}
   }
   .tab{
     flex:1;max-width:220px;
     font-family:'Baloo 2',cursive;font-size:1.15rem;font-weight:700;
     padding:10px 14px;border:2px solid var(--verde-medio);
-    border-radius:14px;background:#fff;color:var(--verde-oscuro);
+    border-radius:14px;background:var(--superficie);color:var(--verde-oscuro);
     cursor:pointer;transition:background .25s ease,border-color .25s ease,box-shadow .25s ease,transform .25s cubic-bezier(.34,1.56,.64,1);display:flex;align-items:center;justify-content:center;gap:8px;
   }
   .tab.activa{background:var(--verde);border-color:var(--verde);box-shadow:var(--sombra)}
@@ -93,12 +178,12 @@
 
   /* ---------- Tarjetas del menú ---------- */
   .producto{
-    background:#fff;border-radius:22px;box-shadow:var(--sombra);
+    background:var(--superficie);border-radius:24px;box-shadow:var(--sombra);
     overflow:hidden;margin-bottom:20px;
-    border:2px solid var(--naranja-claro);
+    border:1px solid var(--borde-card);
   }
   .producto .foto{
-    background:radial-gradient(circle at 50% 55%,#fff 0%,var(--naranja-claro) 70%);
+    background:radial-gradient(circle at 50% 55%,var(--foto-grad-1) 0%,var(--foto-grad-2) 72%);
     display:flex;align-items:center;justify-content:center;
     height:210px;
   }
@@ -113,7 +198,7 @@
   .btn{
     border:none;cursor:pointer;
     border-radius:14px;
-    font-family:'Nunito',sans-serif;font-weight:700;font-size:1rem;
+    font-family:'Rubik',sans-serif;font-weight:700;font-size:1rem;
     padding:12px 20px;transition:transform .18s cubic-bezier(.34,1.56,.64,1),background .18s ease,box-shadow .18s ease;
   }
   .btn-verde{background:var(--verde-boton);color:#fff;box-shadow:0 4px 0 var(--verde-boton-hover)}
@@ -125,8 +210,8 @@
   .carrito-cabecera{text-align:center;margin:6px 0 10px}
   .carrito-cabecera svg{width:120px;height:120px}
   .carrito-caja{
-    background:#fff;border-radius:22px;box-shadow:var(--sombra);
-    padding:18px;border:2px solid var(--verde-claro);
+    background:var(--superficie);border-radius:24px;box-shadow:var(--sombra);
+    padding:18px;border:1px solid var(--borde-card-2);
   }
   .carrito-grid{display:grid;grid-template-columns:1fr auto;gap:18px;align-items:start}
   .carrito-caja h3{font-family:'Baloo 2',cursive;font-size:1.3rem;color:var(--verde-oscuro);margin-bottom:8px}
@@ -140,44 +225,44 @@
   .item-cant{display:flex;align-items:center;gap:6px;margin-top:4px}
   .mini{
     width:28px;height:28px;border-radius:9px;border:2px solid var(--verde-medio);
-    background:#fff;color:var(--verde-oscuro);font-weight:800;cursor:pointer;font-size:1rem;line-height:1;
+    background:var(--superficie);color:var(--verde-oscuro);font-weight:800;cursor:pointer;font-size:1rem;line-height:1;
   }
   .item-precio{font-weight:800;color:var(--naranja-medio);white-space:nowrap}
   .item-derecha{display:flex;align-items:center;gap:10px}
   .btn-borrar{
     background:#e5484d;color:#fff;border:none;border-radius:10px;cursor:pointer;
-    font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;padding:7px 12px;
+    font-family:'Rubik',sans-serif;font-weight:700;font-size:.9rem;padding:7px 12px;
     box-shadow:0 3px 0 #b8363a;transition:.15s;
   }
   .btn-borrar:hover{background:#d13d42}
   .btn-borrar:active{transform:translateY(2px);box-shadow:0 1px 0 #b8363a}
   .total-caja{
-    background:var(--naranja-claro);border-radius:16px;padding:14px 16px;text-align:center;min-width:140px;
+    background:var(--caja-acento);border-radius:16px;padding:14px 16px;text-align:center;min-width:140px;
   }
   .total-caja span{display:block;font-weight:700;color:var(--cafe)}
   .total-caja strong{font-family:'Baloo 2',cursive;font-size:1.8rem;color:var(--verde-oscuro)}
-  .vacio{text-align:center;padding:14px 0;color:#8a8278}
+  .vacio{text-align:center;padding:14px 0;color:var(--texto-suave)}
   .ordenar{width:100%;margin-top:18px;font-size:1.15rem;padding:15px;display:flex;align-items:center;justify-content:center;gap:10px}
   .ordenar{text-decoration:none}
   .ordenar.desactivado{background:#bcd9c5;box-shadow:none;cursor:not-allowed;pointer-events:none}
-  .nota{text-align:center;font-size:.85rem;color:#8a8278;margin-top:10px}
+  .nota{text-align:center;font-size:.85rem;color:var(--texto-suave);margin-top:10px}
 
   .nota a,.info-compra a{color:var(--verde-oscuro);font-weight:700}
 
   /* ---------- Textos legales ---------- */
   .legal{
-    background:#fff;border-radius:22px;box-shadow:var(--sombra);
-    padding:20px 20px 24px;border:2px solid var(--verde-claro);line-height:1.55;font-size:.95rem;
+    background:var(--superficie);border-radius:24px;box-shadow:var(--sombra);
+    padding:20px 20px 24px;border:1px solid var(--borde-card-2);line-height:1.55;font-size:.95rem;
   }
   .legal h3{font-family:'Baloo 2',cursive;color:var(--verde-oscuro);font-size:1.15rem;margin:16px 0 4px}
   .legal h3:first-child{margin-top:0}
   .legal p,.legal li{margin-bottom:6px}
   .legal ul{padding-left:20px}
-  .legal .fecha{color:#8a8278;font-size:.85rem;margin-top:14px}
+  .legal .fecha{color:var(--texto-suave);font-size:.85rem;margin-top:14px}
   .volver{display:block;margin:16px auto 0}
 
   .info-compra{
-    background:var(--naranja-claro);border-radius:16px;padding:12px 16px;margin-top:16px;
+    background:var(--caja-acento);border-radius:16px;padding:12px 16px;margin-top:16px;
     font-size:.88rem;line-height:1.45;color:var(--cafe);
   }
   .info-compra p{margin-bottom:4px}
@@ -191,7 +276,7 @@
 
   .toast{
     position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);
-    background:var(--verde-oscuro);color:#fff;padding:12px 20px;border-radius:14px;
+    background:#2f6b43;color:#fff;padding:12px 20px;border-radius:14px;
     font-weight:700;z-index:20;box-shadow:var(--sombra);opacity:0;
     transition:transform .45s cubic-bezier(.34,1.56,.64,1),opacity .3s ease;
   }
@@ -241,6 +326,7 @@
 <div class="fondo" aria-hidden="true" id="fondo"></div>
 
 <header>
+  <button class="tema-btn" id="temaBtn" type="button" aria-label="Cambiar tema">🌙</button>
   <!-- LOGO -->
   <svg class="logo" viewBox="0 0 200 200" role="img" aria-label="Logo Dulce Cactus">
     <defs>
@@ -442,6 +528,23 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  // ======= TEMA (claro / oscuro) =======
+  const raiz = document.documentElement;
+  const temaBtn = document.getElementById("temaBtn");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    const oscuro = t === "oscuro";
+    temaBtn.textContent = oscuro ? "☀️" : "🌙";
+    temaBtn.setAttribute("aria-label", oscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
+  }
+  // Toma el tema ya aplicado en <head> (o lo deduce) para dejar el ícono correcto
+  aplicarTema(raiz.getAttribute("data-tema") || "claro");
+  temaBtn.addEventListener("click", () => {
+    const nuevo = raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+    try { localStorage.setItem("dc_tema", nuevo); } catch(e){}
+  });
+
   // ======= CONFIGURACIÓN =======
   const WHATSAPP = "529214391165"; // +52 1 921 439 1165
 
@@ -606,7 +709,7 @@
               <button class="mini" data-menos="${p.id}" aria-label="Quitar uno">−</button>
               <span>${c}</span>
               <button class="mini" data-mas="${p.id}" aria-label="Agregar uno">+</button>
-              <small style="color:#8a8278">× $${p.precio}</small>
+              <small style="color:var(--texto-suave)">× $${p.precio}</small>
             </div>
           </div>
           <div class="item-derecha">
