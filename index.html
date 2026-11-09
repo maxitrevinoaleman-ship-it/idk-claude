@@ -142,6 +142,14 @@
     background:#fff;color:var(--verde-oscuro);font-weight:800;cursor:pointer;font-size:1rem;line-height:1;
   }
   .item-precio{font-weight:800;color:var(--naranja-medio);white-space:nowrap}
+  .item-derecha{display:flex;align-items:center;gap:10px}
+  .btn-borrar{
+    background:#e5484d;color:#fff;border:none;border-radius:10px;cursor:pointer;
+    font-family:'Nunito',sans-serif;font-weight:700;font-size:.9rem;padding:7px 12px;
+    box-shadow:0 3px 0 #b8363a;transition:.15s;
+  }
+  .btn-borrar:hover{background:#d13d42}
+  .btn-borrar:active{transform:translateY(2px);box-shadow:0 1px 0 #b8363a}
   .total-caja{
     background:var(--naranja-claro);border-radius:16px;padding:14px 16px;text-align:center;min-width:140px;
   }
@@ -153,7 +161,32 @@
   .ordenar.desactivado{background:#bcd9c5;box-shadow:none;cursor:not-allowed;pointer-events:none}
   .nota{text-align:center;font-size:.85rem;color:#8a8278;margin-top:10px}
 
-  footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.85rem;color:var(--cafe)}
+  .nota a,.info-compra a{color:var(--verde-oscuro);font-weight:700}
+
+  /* ---------- Textos legales ---------- */
+  .legal{
+    background:#fff;border-radius:22px;box-shadow:var(--sombra);
+    padding:20px 20px 24px;border:2px solid var(--verde-claro);line-height:1.55;font-size:.95rem;
+  }
+  .legal h3{font-family:'Baloo 2',cursive;color:var(--verde-oscuro);font-size:1.15rem;margin:16px 0 4px}
+  .legal h3:first-child{margin-top:0}
+  .legal p,.legal li{margin-bottom:6px}
+  .legal ul{padding-left:20px}
+  .legal .fecha{color:#8a8278;font-size:.85rem;margin-top:14px}
+  .volver{display:block;margin:16px auto 0}
+
+  .info-compra{
+    background:var(--naranja-claro);border-radius:16px;padding:12px 16px;margin-top:16px;
+    font-size:.88rem;line-height:1.45;color:var(--cafe);
+  }
+  .info-compra p{margin-bottom:4px}
+
+  footer{position:relative;z-index:1;text-align:center;padding:20px;font-size:.85rem;color:var(--cafe);line-height:1.7}
+  footer .links button{
+    background:none;border:none;font:inherit;color:var(--verde-oscuro);font-weight:700;
+    text-decoration:underline;cursor:pointer;padding:0 4px;
+  }
+  footer .hecho{font-family:'Baloo 2',cursive;font-size:1.05rem;color:var(--verde-oscuro);margin-top:6px}
 
   .toast{
     position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(120px);
@@ -262,17 +295,130 @@
         <svg width="22" height="22" viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.6.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.2-.4.2-.4.7-1.3.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.8 11.8 0 0 0 4.5 4c1.7.7 2.3.8 3.2.6.5-.1 1.5-.6 1.7-1.2s.2-1.1.2-1.2-.2-.2-.4-.3z"/></svg>
         Ordenar pedido
       </a>
-      <p class="nota">Te llevaremos a WhatsApp con tu pedido listo para enviar 💚</p>
+      <p class="nota">Te llevaremos a WhatsApp con tu pedido listo para enviar 💚<br>
+        Al ordenar, los datos que nos compartas por WhatsApp se usan solo para tu pedido.
+        Consulta nuestro <a href="#" data-abrir="privacidad">Aviso de privacidad</a>.</p>
+
+      <div class="info-compra">
+        <p>💲 Los precios son finales, en pesos mexicanos (MXN) y no tienen cargos ocultos.</p>
+        <p>🚚 Si hay costo de entrega, te lo decimos por WhatsApp <b>antes</b> de que pagues.</p>
+        <p>🥜 ¿Tienes alguna alergia? Pregúntanos los ingredientes antes de ordenar.</p>
+        <p>Lee los <a href="#" data-abrir="terminos">Términos y condiciones</a>.</p>
+      </div>
     </div>
+  </section>
+
+  <!-- ============ AVISO DE PRIVACIDAD ============ -->
+  <section class="seccion" id="privacidad">
+    <h2 class="titulo-seccion">Aviso de privacidad</h2>
+    <div class="legal">
+      <h3>¿Quién es responsable de tus datos?</h3>
+      <p><span class="dato-responsable"></span> es responsable de tus datos personales. Puedes contactarnos por WhatsApp al
+        <span class="dato-telefono"></span><span class="dato-correo-texto"></span>.</p>
+
+      <h3>¿Qué datos recabamos?</h3>
+      <p>Solo los que tú nos mandes por WhatsApp para hacer tu pedido: nombre, número de teléfono y,
+        si pides entrega, la dirección donde quieres recibirlo. <b>No pedimos datos sensibles</b>
+        (como salud, religión u origen) ni datos bancarios por esta página.</p>
+      <p>Esta página no tiene registro ni guarda tus datos en un servidor. Tu carrito se guarda solo en tu
+        propio celular o computadora (almacenamiento local del navegador) y puedes borrarlo vaciando el carrito.</p>
+
+      <h3>¿Para qué usamos tus datos?</h3>
+      <p><b>Finalidades necesarias:</b> recibir y confirmar tu pedido, coordinar la entrega y el pago,
+        y atender dudas, aclaraciones o quejas sobre tu compra.</p>
+      <p><b>Finalidades que necesitan tu permiso:</b> mandarte promociones o novedades. Solo lo haremos si
+        tú nos dices que sí, y puedes pedir que dejemos de hacerlo en cualquier momento con un mensaje.</p>
+
+      <h3>¿Compartimos tus datos?</h3>
+      <p>No vendemos ni compartimos tus datos con nadie ajeno a tu pedido, salvo que tú lo autorices o
+        que una autoridad competente lo pida conforme a la ley. Los mensajes viajan por WhatsApp (Meta),
+        que tiene su propio aviso de privacidad. Para mostrar las letras de la página usamos Google Fonts,
+        que puede recibir datos técnicos de tu navegador, como tu dirección IP.</p>
+
+      <h3>Tus derechos ARCO</h3>
+      <p>Puedes pedir <b>Acceso</b> a tus datos, su <b>Rectificación</b> si están mal, su <b>Cancelación</b>
+        o <b>Oponerte</b> a que los usemos. También puedes retirar tu consentimiento o limitar el uso de tus datos.</p>
+      <p>Mándanos un mensaje por WhatsApp<span class="dato-correo-arco"></span> con tu nombre, cómo
+        contactarte y qué derecho quieres ejercer. Es gratis. Te respondemos en un máximo de 20 días hábiles y,
+        si procede, lo hacemos efectivo en los 15 días hábiles siguientes. Si no estás conforme, puedes acudir
+        a la Secretaría Anticorrupción y Buen Gobierno.</p>
+
+      <h3>Cambios a este aviso</h3>
+      <p>Si cambiamos este aviso, lo publicaremos en esta misma página con su nueva fecha.</p>
+
+      <p class="fecha">Última actualización: 9 de noviembre de 2026.<br>
+        Con base en la Ley Federal de Protección de Datos Personales en Posesión de los Particulares (DOF 20-03-2025).</p>
+    </div>
+    <button class="btn btn-verde volver" data-abrir="menu">← Regresar al menú</button>
+  </section>
+
+  <!-- ============ TÉRMINOS Y CONDICIONES ============ -->
+  <section class="seccion" id="terminos">
+    <h2 class="titulo-seccion">Términos y condiciones</h2>
+    <div class="legal">
+      <h3>Datos del negocio</h3>
+      <p><span class="dato-responsable"></span> ·
+        WhatsApp: <span class="dato-telefono"></span><span class="dato-correo-texto"></span>.
+        Por estos medios atendemos pedidos, dudas, aclaraciones y quejas.</p>
+
+      <h3>Cómo funciona un pedido</h3>
+      <ul>
+        <li>Eliges tus galletas y la cantidad en esta página.</li>
+        <li>Al presionar "Ordenar pedido" se abre WhatsApp con tu pedido escrito. Tú decides si lo envías.</li>
+        <li>El pedido queda confirmado cuando te respondemos por WhatsApp con la disponibilidad, la fecha de entrega y el total final.</li>
+      </ul>
+
+      <h3>Precios y pagos</h3>
+      <ul>
+        <li>Los precios están en pesos mexicanos (MXN) y son el monto total por cada galleta, sin cargos ocultos.</li>
+        <li>Si la entrega tiene costo, te lo informamos antes de que pagues. No cobramos nada que no hayas aceptado.</li>
+        <li>Las formas de pago disponibles te las decimos por WhatsApp al confirmar tu pedido. Esta página no cobra ni pide datos de tarjetas.</li>
+        <li>Respetamos el precio que aparece en la página al momento de tu pedido.</li>
+      </ul>
+
+      <h3>Productos</h3>
+      <ul>
+        <li>Son galletas artesanales hechas a mano, así que el tamaño y la forma pueden variar un poco. Las imágenes son ilustraciones.</li>
+        <li>Si tienes alergias, pregúntanos los ingredientes antes de ordenar.</li>
+      </ul>
+
+      <h3>Cambios, cancelaciones y aclaraciones</h3>
+      <ul>
+        <li>Puedes cancelar o cambiar tu pedido mientras no lo hayamos preparado. Avísanos por WhatsApp.</li>
+        <li>Si tu pedido llega incompleto o en mal estado, escríbenos el mismo día con una foto y lo solucionamos.</li>
+        <li>También puedes acudir a la Procuraduría Federal del Consumidor (Profeco).</li>
+      </ul>
+
+      <h3>Publicidad</h3>
+      <p>Solo te mandamos promociones si tú lo pides. Si ya no quieres recibirlas, avísanos y dejamos de enviarlas.</p>
+
+      <p class="fecha">Última actualización: 9 de noviembre de 2026.<br>
+        Con base en la Ley Federal de Protección al Consumidor (artículos 7, 7 Bis y 76 Bis).</p>
+    </div>
+    <button class="btn btn-verde volver" data-abrir="menu">← Regresar al menú</button>
   </section>
 </main>
 
-<footer>© Dulce Cactus · Hecho con 💚</footer>
+<footer>
+  <div>© Dulce Cactus · Galletas artesanales</div>
+  <div class="links">
+    <button data-abrir="privacidad">Aviso de privacidad</button> ·
+    <button data-abrir="terminos">Términos y condiciones</button>
+  </div>
+  <div class="hecho">Hecho por: MAX :)</div>
+</footer>
 <div class="toast" id="toast"></div>
 
 <script>
   // ======= CONFIGURACIÓN =======
   const WHATSAPP = "529214391165"; // +52 1 921 439 1165
+
+  // Datos que aparecen en el Aviso de privacidad y en los Términos.
+  const NEGOCIO = {
+    responsable: "Dulce Cactus",
+    telefono: "+52 921 439 1165",
+    correo: "" // opcional, ej: "dulcecactus@gmail.com"
+  };
 
   // Imágenes de las galletas (SVG ilustrado). Para usar fotos reales,
   // pon la ruta de la imagen en "foto", ej: foto: "img/chocolate.jpg"
@@ -381,7 +527,10 @@
               <small style="color:#8a8278">× $${p.precio}</small>
             </div>
           </div>
-          <div class="item-precio">${dinero(sub)}</div>
+          <div class="item-derecha">
+            <div class="item-precio">${dinero(sub)}</div>
+            <button class="btn-borrar" data-borrar="${p.id}" aria-label="Borrar ${p.nombre} del carrito">Borrar</button>
+          </div>
         </li>`;
       }).join("");
     }
@@ -397,7 +546,13 @@
     const mas = e.target.closest("[data-mas]"), menos = e.target.closest("[data-menos]");
     if (mas) carrito[mas.dataset.mas]++;
     if (menos) { const id = menos.dataset.menos; carrito[id]--; if (carrito[id] <= 0) delete carrito[id]; }
-    if (mas || menos) { guardar(); pintarCarrito(); }
+    const borrar = e.target.closest("[data-borrar]");
+    if (borrar) {
+      const p = PRODUCTOS.find(x => x.id === borrar.dataset.borrar);
+      delete carrito[borrar.dataset.borrar];
+      aviso(`${p.nombre} eliminada 🗑️`);
+    }
+    if (mas || menos || borrar) { guardar(); pintarCarrito(); }
   });
 
   // ======= ORDENAR POR WHATSAPP =======
@@ -408,11 +563,25 @@
   }
 
   // ======= PESTAÑAS =======
-  document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach(x => x.classList.toggle("activa", x === t));
-    document.querySelectorAll(".seccion").forEach(s => s.classList.toggle("activa", s.id === t.dataset.tab));
+  function abrir(id){
+    document.querySelectorAll(".tab").forEach(x => x.classList.toggle("activa", x.dataset.tab === id));
+    document.querySelectorAll(".seccion").forEach(s => s.classList.toggle("activa", s.id === id));
     window.scrollTo({ top: 0, behavior: "smooth" });
-  }));
+  }
+  document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => abrir(t.dataset.tab)));
+  document.addEventListener("click", e => {
+    const b = e.target.closest("[data-abrir]");
+    if (!b) return;
+    e.preventDefault();
+    abrir(b.dataset.abrir);
+  });
+
+  // ======= DATOS DEL NEGOCIO EN TEXTOS LEGALES =======
+  const llenar = (sel, txt) => document.querySelectorAll(sel).forEach(el => el.textContent = txt);
+  llenar(".dato-responsable", NEGOCIO.responsable);
+  llenar(".dato-telefono", NEGOCIO.telefono);
+  llenar(".dato-correo-texto", NEGOCIO.correo ? ` o por correo a ${NEGOCIO.correo}` : "");
+  llenar(".dato-correo-arco", NEGOCIO.correo ? ` o un correo a ${NEGOCIO.correo}` : "");
 
   // ======= AVISO =======
   let tAviso;
