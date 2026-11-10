@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#fff8ef" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#16130f" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#ff9ecf" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#e0679f" media="(prefers-color-scheme: dark)">
 <script>
   /* Aplica el tema antes de pintar para evitar parpadeo */
   (function(){
@@ -318,6 +318,55 @@
     .carrito-grid{grid-template-columns:1fr}
     .total-caja{display:flex;justify-content:space-between;align-items:center}
   }
+
+  /* ================= TEMA POP ================= */
+  :root{
+    --linea:#111;
+    --pop-rosa:#ff9ecf;--pop-amarillo:#ffd23f;--pop-verde:#3ddc84;--pop-menta:#b8f0c8;
+    --bg-1:#fff5c2;--bg-2:#fff5c2;--superficie:#fff;
+    --header-grad-1:var(--pop-rosa);--header-grad-2:var(--pop-rosa);
+    --foto-grad-1:var(--pop-menta);--foto-grad-2:var(--pop-menta);
+    --borde-card:var(--linea);--borde-card-2:var(--linea);
+    --verde-oscuro:#111;--titulo:#111;--naranja-medio:#111;--texto:#111;--cafe:#111;--texto-suave:#444;
+    --verde-boton:var(--pop-verde);--verde-boton-hover:#111;--caja-acento:var(--pop-amarillo);
+    --nav-bg:rgba(255,245,194,.92);
+    --sombra:5px 5px 0 var(--linea);--sombra-sm:3px 3px 0 var(--linea);
+  }
+  html[data-tema="oscuro"]{
+    --linea:#f5f0e6;
+    --pop-rosa:#e0679f;--pop-amarillo:#ffd23f;--pop-verde:#3ddc84;--pop-menta:#1f5a3a;
+    --bg-1:#17141c;--bg-2:#17141c;--superficie:#24202c;
+    --verde-oscuro:#f5f0e6;--titulo:#f5f0e6;--naranja-medio:#f5f0e6;--texto:#f5f0e6;--cafe:#f5f0e6;--texto-suave:#c9c2d6;
+    --nav-bg:rgba(23,20,28,.92);
+  }
+  body,button,input{font-family:'Rubik',system-ui,sans-serif}
+  .marca h1,.titulo-seccion,.producto h3,.carrito-caja h3,.total-caja strong,.legal h3,footer .hecho,.tab,.precio{
+    font-family:'Rubik',system-ui,sans-serif!important;font-weight:800!important}
+  header{background:var(--pop-rosa)!important;border-bottom:3px solid var(--linea)!important;box-shadow:none!important}
+  .producto .foto{background:var(--pop-menta)!important}
+  .marca h1{color:#111!important;font-size:1.9rem!important;letter-spacing:-.5px}
+  .marca h1 span{color:#fff!important;-webkit-text-stroke:1.5px #111}
+  .marca p{color:#111!important}
+  .titulo-seccion{transform:rotate(-2deg)}
+  .producto,.carrito-caja,.legal{border:3px solid var(--linea)!important;border-radius:16px!important;box-shadow:var(--sombra)!important}
+  .producto .foto{border-bottom:3px solid var(--linea)}
+  .tab{border:3px solid var(--linea)!important;border-radius:12px!important;box-shadow:4px 4px 0 var(--linea)!important;background:var(--superficie)!important;color:var(--texto)!important}
+  .tab.activa{background:var(--pop-amarillo)!important;color:#111!important}
+  .contador{background:var(--pop-rosa)!important;color:#111!important;border:2px solid #111}
+  .btn-verde{color:#111!important;border:3px solid var(--linea)!important;border-radius:12px!important;box-shadow:4px 4px 0 var(--linea)!important;font-weight:800!important}
+  .btn-verde:active{transform:translate(3px,3px)!important;box-shadow:1px 1px 0 var(--linea)!important}
+  .btn-verde.agregado{background:var(--pop-amarillo)!important}
+  .ordenar.desactivado{background:#cfcfcf!important;opacity:.7}
+  .precio{background:var(--pop-amarillo);color:#111!important;border:3px solid var(--linea);border-radius:10px;padding:0 10px}
+  .precio small{color:#111!important}
+  .total-caja,.info-compra{background:var(--pop-amarillo)!important;border:3px solid var(--linea);border-radius:12px!important;color:#111!important}
+  .total-caja span,.total-caja strong,.info-compra a{color:#111!important}
+  .item-precio{color:var(--texto)!important}
+  .mini{border:2px solid var(--linea)!important;border-radius:8px!important;box-shadow:2px 2px 0 var(--linea);background:var(--superficie)!important;color:var(--texto)!important}
+  .btn-borrar{border:3px solid var(--linea)!important;box-shadow:3px 3px 0 var(--linea)!important;border-radius:10px!important}
+  .lista li{border-bottom:2px dashed var(--linea)!important}
+  .toast{background:#111!important;color:var(--pop-amarillo)!important;border:3px solid var(--pop-amarillo)}
+  html[data-tema="oscuro"] .toast{background:var(--pop-amarillo)!important;color:#111!important;border-color:#111}
 </style>
 </head>
 <body>
