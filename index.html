@@ -9,18 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#ff9ecf" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#e0679f" media="(prefers-color-scheme: dark)">
-<script>
-  /* Aplica el tema antes de pintar para evitar parpadeo */
-  (function(){
-    try{
-      var t = localStorage.getItem('dc_tema');
-      if(!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
-      document.documentElement.setAttribute('data-tema', t);
-    }catch(e){}
-  })();
-</script>
+<meta name="theme-color" content="#ff9ecf">
 <style>
   :root{
     color-scheme:light;
@@ -53,42 +42,6 @@
     --sombra:0 6px 18px rgba(80,120,90,.15);
     --sombra-sm:0 2px 8px rgba(80,120,90,.12);
   }
-  /* ---------- Modo oscuro ---------- */
-  html[data-tema="oscuro"]{
-    color-scheme:dark;
-    --crema:#1a1714;
-    --verde-claro:#213a2b;
-    --verde:#2f5740;
-    --verde-medio:#49936a;
-    --verde-boton:#56b97a;
-    --verde-boton-hover:#469a65;
-    --verde-oscuro:#8fe0ac;
-    --naranja-claro:#3a2a1e;
-    --naranja:#c98a56;
-    --naranja-medio:#f0a868;
-    --cafe:#c9b6a5;
-    --texto:#ece6df;
-    --texto-suave:#a89f94;
-    --bg-1:#16130f;
-    --bg-2:#1d1915;
-    --superficie:#242019;
-    --nav-bg:rgba(26,23,20,.72);
-    --borde-card:#3a3228;
-    --borde-card-2:#2f3b31;
-    --header-grad-1:#20321f;
-    --header-grad-2:#2f2418;
-    --foto-grad-1:#2c271f;
-    --foto-grad-2:#1f1b15;
-    --caja-acento:#33281d;
-    --titulo:#8fe0ac;
-    --sombra:0 8px 22px rgba(0,0,0,.45);
-    --sombra-sm:0 2px 10px rgba(0,0,0,.4);
-  }
-  html{transition:background-color .3s ease}
-  html,body,.producto,.tab,.carrito-caja,.legal,.mini,.total-caja,.info-compra,.tema-btn,nav{
-    transition-property:background,background-color,border-color,color,box-shadow;
-    transition-duration:.3s;transition-timing-function:ease;
-  }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{min-height:100%}
   body{
@@ -101,8 +54,7 @@
 
   /* ---------- Decoración de fondo ---------- */
   .fondo{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .fondo svg{position:absolute;opacity:.22;transition:opacity .3s ease}
-  html[data-tema="oscuro"] .fondo svg{opacity:.10}
+  .fondo svg{position:absolute;opacity:.22}
 
   /* ---------- Encabezado ---------- */
   header{
@@ -113,20 +65,6 @@
     display:flex;align-items:center;justify-content:center;gap:14px;
     box-shadow:var(--sombra);
   }
-  /* Botón de tema claro/oscuro */
-  .tema-btn{
-    position:absolute;top:14px;right:14px;z-index:3;
-    width:44px;height:44px;border-radius:50%;
-    border:2px solid var(--verde-medio);
-    background:var(--superficie);
-    cursor:pointer;font-size:1.3rem;line-height:1;
-    display:flex;align-items:center;justify-content:center;
-    box-shadow:var(--sombra-sm);
-    transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .3s ease,border-color .3s ease;
-  }
-  .tema-btn:hover{transform:scale(1.1) rotate(-10deg)}
-  .tema-btn:active{transform:scale(.9)}
-  @media (max-width:520px){.tema-btn{top:10px;right:10px;width:40px;height:40px;font-size:1.15rem}}
   .logo{width:96px;height:96px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.12))}
   .marca h1{
     font-family:'Baloo 2',cursive;font-weight:800;
@@ -332,13 +270,6 @@
     --nav-bg:rgba(255,245,194,.92);
     --sombra:5px 5px 0 var(--linea);--sombra-sm:3px 3px 0 var(--linea);
   }
-  html[data-tema="oscuro"]{
-    --linea:#f5f0e6;
-    --pop-rosa:#e0679f;--pop-amarillo:#ffd23f;--pop-verde:#3ddc84;--pop-menta:#1f5a3a;
-    --bg-1:#17141c;--bg-2:#17141c;--superficie:#24202c;
-    --verde-oscuro:#f5f0e6;--titulo:#f5f0e6;--naranja-medio:#f5f0e6;--texto:#f5f0e6;--cafe:#f5f0e6;--texto-suave:#c9c2d6;
-    --nav-bg:rgba(23,20,28,.92);
-  }
   body,button,input{font-family:'Rubik',system-ui,sans-serif}
   .marca h1,.titulo-seccion,.producto h3,.carrito-caja h3,.total-caja strong,.legal h3,footer .hecho,.tab,.precio{
     font-family:'Rubik',system-ui,sans-serif!important;font-weight:800!important}
@@ -366,7 +297,6 @@
   .btn-borrar{border:3px solid var(--linea)!important;box-shadow:3px 3px 0 var(--linea)!important;border-radius:10px!important}
   .lista li{border-bottom:2px dashed var(--linea)!important}
   .toast{background:#111!important;color:var(--pop-amarillo)!important;border:3px solid var(--pop-amarillo)}
-  html[data-tema="oscuro"] .toast{background:var(--pop-amarillo)!important;color:#111!important;border-color:#111}
 </style>
 </head>
 <body>
@@ -375,7 +305,6 @@
 <div class="fondo" aria-hidden="true" id="fondo"></div>
 
 <header>
-  <button class="tema-btn" id="temaBtn" type="button" aria-label="Cambiar tema">🌙</button>
   <!-- LOGO -->
   <svg class="logo" viewBox="0 0 200 200" role="img" aria-label="Logo Dulce Cactus">
     <defs>
@@ -577,23 +506,6 @@
 <div class="toast" id="toast"></div>
 
 <script>
-  // ======= TEMA (claro / oscuro) =======
-  const raiz = document.documentElement;
-  const temaBtn = document.getElementById("temaBtn");
-  function aplicarTema(t){
-    raiz.setAttribute("data-tema", t);
-    const oscuro = t === "oscuro";
-    temaBtn.textContent = oscuro ? "☀️" : "🌙";
-    temaBtn.setAttribute("aria-label", oscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
-  }
-  // Toma el tema ya aplicado en <head> (o lo deduce) para dejar el ícono correcto
-  aplicarTema(raiz.getAttribute("data-tema") || "claro");
-  temaBtn.addEventListener("click", () => {
-    const nuevo = raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro";
-    aplicarTema(nuevo);
-    try { localStorage.setItem("dc_tema", nuevo); } catch(e){}
-  });
-
   // ======= CONFIGURACIÓN =======
   const WHATSAPP = "529214391165"; // +52 1 921 439 1165
 
