@@ -309,6 +309,7 @@
   .producto .foto img{width:100%;height:100%;object-fit:cover;display:block}
   .producto{transition:transform .2s ease,box-shadow .2s ease}
   .producto:active{transform:translate(2px,2px)}
+  @media (hover:hover){.producto:hover{transform:translateY(-4px)}}
   .producto h3{position:relative;display:inline-block}
   .producto h3::after{
     content:"";position:absolute;left:0;right:0;bottom:2px;height:8px;z-index:-1;
@@ -628,7 +629,7 @@
   const listaProductos = document.getElementById("listaProductos");
   listaProductos.innerHTML = PRODUCTOS.map(p => `
     <article class="producto" style="--c1:${p.colores[0]};--c2:${p.colores[1]};--c3:${p.colores[2]}">
-      <div class="foto"><img src="${p.foto}" alt="Galleta ${p.nombre}" loading="lazy" width="720" height="720" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sin-foto',textContent:'🍪'}))"></div>
+      <div class="foto"><img src="${p.foto}" alt="Galleta ${p.nombre}" loading="lazy" decoding="async" width="720" height="720" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sin-foto',textContent:'🍪'}))"></div>
       <div class="info">
         <h3>${p.nombre}</h3>
         <p class="desc">${p.desc}</p>
@@ -776,6 +777,10 @@
   });
 
   // ======= ORDENAR POR WHATSAPP =======
+  // Con el carrito vacío el enlace esta deshabilitado: no debe abrir una pestana en blanco
+  document.getElementById("ordenar").addEventListener("click", e => {
+    if (e.currentTarget.classList.contains("desactivado")) e.preventDefault();
+  });
   function linkWhatsApp(items, total){
     const lineas = items.map(p => `• ${carrito[p.id]} x ${p.nombre} — $${carrito[p.id] * p.precio}`);
     const msg = `¡Hola Dulce Cactus! 🌵🍪\nQuiero hacer este pedido:\n\n${lineas.join("\n")}\n\n*Total: $${total} MXN*\n\n¿Me confirmas disponibilidad y entrega? ¡Gracias!`;
@@ -784,7 +789,11 @@
 
   // ======= PESTAÑAS =======
   function abrir(id){
-    document.querySelectorAll(".tab").forEach(x => x.classList.toggle("activa", x.dataset.tab === id));
+    document.querySelectorAll(".tab").forEach(x => {
+      const activa = x.dataset.tab === id;
+      x.classList.toggle("activa", activa);
+      if (activa) x.setAttribute("aria-current", "page"); else x.removeAttribute("aria-current");
+    });
     document.querySelectorAll(".seccion").forEach(s => s.classList.toggle("activa", s.id === id));
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
