@@ -285,6 +285,9 @@
   .tab.activa{background:var(--pop-amarillo)!important;color:#111!important}
   .contador{background:var(--pop-rosa)!important;color:#111!important;border:2px solid #111}
   .btn-verde{color:#111!important;border:3px solid var(--linea)!important;border-radius:12px!important;box-shadow:4px 4px 0 var(--linea)!important;font-weight:800!important}
+  /* El hover no debe pintar el boton de negro (y en movil el :hover se queda pegado) */
+  .btn-verde:hover{background:var(--pop-verde)!important}
+  @media (hover:hover){.btn-verde:hover{filter:brightness(.96)}}
   .btn-verde:active{transform:translate(3px,3px)!important;box-shadow:1px 1px 0 var(--linea)!important}
   .btn-verde.agregado{background:var(--pop-amarillo)!important}
   .ordenar.desactivado{background:#cfcfcf!important;opacity:.7}
