@@ -9,7 +9,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;700;800&family=Rubik:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<meta name="theme-color" content="#ff9ecf">
+<meta name="theme-color" content="#ff9ecf" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#e0679f" media="(prefers-color-scheme: dark)">
+<script>
+  /* Aplica el tema antes de pintar para evitar parpadeo */
+  (function(){
+    try{
+      var t = localStorage.getItem('dc_tema');
+      if(!t) t = matchMedia('(prefers-color-scheme: dark)').matches ? 'oscuro' : 'claro';
+      document.documentElement.setAttribute('data-tema', t);
+    }catch(e){}
+  })();
+</script>
 <style>
   :root{
     color-scheme:light;
@@ -42,6 +53,42 @@
     --sombra:0 6px 18px rgba(80,120,90,.15);
     --sombra-sm:0 2px 8px rgba(80,120,90,.12);
   }
+  /* ---------- Modo oscuro ---------- */
+  html[data-tema="oscuro"]{
+    color-scheme:dark;
+    --crema:#1a1714;
+    --verde-claro:#213a2b;
+    --verde:#2f5740;
+    --verde-medio:#49936a;
+    --verde-boton:#56b97a;
+    --verde-boton-hover:#469a65;
+    --verde-oscuro:#8fe0ac;
+    --naranja-claro:#3a2a1e;
+    --naranja:#c98a56;
+    --naranja-medio:#f0a868;
+    --cafe:#c9b6a5;
+    --texto:#ece6df;
+    --texto-suave:#a89f94;
+    --bg-1:#16130f;
+    --bg-2:#1d1915;
+    --superficie:#242019;
+    --nav-bg:rgba(26,23,20,.72);
+    --borde-card:#3a3228;
+    --borde-card-2:#2f3b31;
+    --header-grad-1:#20321f;
+    --header-grad-2:#2f2418;
+    --foto-grad-1:#2c271f;
+    --foto-grad-2:#1f1b15;
+    --caja-acento:#33281d;
+    --titulo:#8fe0ac;
+    --sombra:0 8px 22px rgba(0,0,0,.45);
+    --sombra-sm:0 2px 10px rgba(0,0,0,.4);
+  }
+  html{transition:background-color .3s ease}
+  html,body,.producto,.tab,.carrito-caja,.legal,.mini,.total-caja,.info-compra,.tema-btn,nav{
+    transition-property:background,background-color,border-color,color,box-shadow;
+    transition-duration:.3s;transition-timing-function:ease;
+  }
   *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
   html,body{min-height:100%}
   body{
@@ -54,7 +101,8 @@
 
   /* ---------- Decoración de fondo ---------- */
   .fondo{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .fondo svg{position:absolute;opacity:.22}
+  .fondo svg{position:absolute;opacity:.22;transition:opacity .3s ease}
+  html[data-tema="oscuro"] .fondo svg{opacity:.10}
 
   /* ---------- Encabezado ---------- */
   header{
@@ -65,6 +113,20 @@
     display:flex;align-items:center;justify-content:center;gap:14px;
     box-shadow:var(--sombra);
   }
+  /* Botón de tema claro/oscuro */
+  .tema-btn{
+    position:absolute;top:14px;right:14px;z-index:3;
+    width:44px;height:44px;border-radius:50%;
+    border:2px solid var(--verde-medio);
+    background:var(--superficie);
+    cursor:pointer;font-size:1.3rem;line-height:1;
+    display:flex;align-items:center;justify-content:center;
+    box-shadow:var(--sombra-sm);
+    transition:transform .3s cubic-bezier(.34,1.56,.64,1),background .3s ease,border-color .3s ease;
+  }
+  .tema-btn:hover{transform:scale(1.1) rotate(-10deg)}
+  .tema-btn:active{transform:scale(.9)}
+  @media (max-width:520px){.tema-btn{top:10px;right:10px;width:40px;height:40px;font-size:1.15rem}}
   .logo{width:96px;height:96px;flex-shrink:0;filter:drop-shadow(0 3px 6px rgba(0,0,0,.12))}
   .marca h1{
     font-family:'Baloo 2',cursive;font-weight:800;
@@ -270,6 +332,13 @@
     --nav-bg:rgba(255,245,194,.92);
     --sombra:5px 5px 0 var(--linea);--sombra-sm:3px 3px 0 var(--linea);
   }
+  html[data-tema="oscuro"]{
+    --linea:#f5f0e6;
+    --pop-rosa:#e0679f;--pop-amarillo:#ffd23f;--pop-verde:#3ddc84;--pop-menta:#1f5a3a;
+    --bg-1:#17141c;--bg-2:#17141c;--superficie:#24202c;
+    --verde-oscuro:#f5f0e6;--titulo:#f5f0e6;--naranja-medio:#f5f0e6;--texto:#f5f0e6;--cafe:#f5f0e6;--texto-suave:#c9c2d6;
+    --nav-bg:rgba(23,20,28,.92);
+  }
   body,button,input{font-family:'Rubik',system-ui,sans-serif}
   .marca h1,.titulo-seccion,.producto h3,.carrito-caja h3,.total-caja strong,.legal h3,footer .hecho,.tab,.precio{
     font-family:'Rubik',system-ui,sans-serif!important;font-weight:800!important}
@@ -297,6 +366,31 @@
   .btn-borrar{border:3px solid var(--linea)!important;box-shadow:3px 3px 0 var(--linea)!important;border-radius:10px!important}
   .lista li{border-bottom:2px dashed var(--linea)!important}
   .toast{background:#111!important;color:var(--pop-amarillo)!important;border:3px solid var(--pop-amarillo)}
+  html[data-tema="oscuro"] .toast{background:var(--pop-amarillo)!important;color:#111!important;border-color:#111}
+
+  /* ================= FOTOS REALES + COLORES POR GALLETA ================= */
+  .producto .foto{
+    height:auto!important;aspect-ratio:1/1;padding:0;overflow:hidden;
+    background:var(--c2,var(--pop-menta))!important;
+  }
+  .producto .foto img{width:100%;height:100%;object-fit:cover;display:block}
+  .producto{transition:transform .2s ease,box-shadow .2s ease}
+  .producto:active{transform:translate(2px,2px)}
+  .producto h3{position:relative;display:inline-block}
+  .producto h3::after{
+    content:"";position:absolute;left:0;right:0;bottom:2px;height:8px;z-index:-1;
+    background:var(--c1);opacity:.35;border-radius:4px;
+  }
+  .producto .btn-verde.agregado{background:var(--c1)!important;color:var(--c2)!important}
+  .foto.pop img{animation:popFoto .5s cubic-bezier(.34,1.56,.64,1)}
+  .foto.pop{box-shadow:inset 0 0 0 6px var(--c1)}
+  .migaja{position:fixed;z-index:30;pointer-events:none;border:2px solid #111}
+  html[data-tema="oscuro"] .migaja{border-color:#f5f0e6}
+  .galleta-vuela{border-radius:50%}
+  @media (min-width:700px){
+    #listaProductos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+    #listaProductos .producto{margin-bottom:0}
+  }
 </style>
 </head>
 <body>
@@ -305,6 +399,7 @@
 <div class="fondo" aria-hidden="true" id="fondo"></div>
 
 <header>
+  <button class="tema-btn" id="temaBtn" type="button" aria-label="Cambiar tema">🌙</button>
   <!-- LOGO -->
   <svg class="logo" viewBox="0 0 200 200" role="img" aria-label="Logo Dulce Cactus">
     <defs>
@@ -506,6 +601,23 @@
 <div class="toast" id="toast"></div>
 
 <script>
+  // ======= TEMA (claro / oscuro) =======
+  const raiz = document.documentElement;
+  const temaBtn = document.getElementById("temaBtn");
+  function aplicarTema(t){
+    raiz.setAttribute("data-tema", t);
+    const oscuro = t === "oscuro";
+    temaBtn.textContent = oscuro ? "☀️" : "🌙";
+    temaBtn.setAttribute("aria-label", oscuro ? "Cambiar a modo claro" : "Cambiar a modo oscuro");
+  }
+  // Toma el tema ya aplicado en <head> (o lo deduce) para dejar el ícono correcto
+  aplicarTema(raiz.getAttribute("data-tema") || "claro");
+  temaBtn.addEventListener("click", () => {
+    const nuevo = raiz.getAttribute("data-tema") === "oscuro" ? "claro" : "oscuro";
+    aplicarTema(nuevo);
+    try { localStorage.setItem("dc_tema", nuevo); } catch(e){}
+  });
+
   // ======= CONFIGURACIÓN =======
   const WHATSAPP = "529214391165"; // +52 1 921 439 1165
 
@@ -516,56 +628,66 @@
     correo: "" // opcional, ej: "dulcecactus@gmail.com"
   };
 
-  // Imágenes de las galletas (SVG ilustrado). Para usar fotos reales,
-  // pon la ruta de la imagen en "foto", ej: foto: "img/chocolate.jpg"
-  const svgGalleta = (masa, borde, chispas) => `
-    <svg viewBox="0 0 200 200">
-      <path d="M100 18c18 0 22 10 38 14s30 10 36 28-4 26 0 42 6 32-8 46-30 10-44 20-26 16-42 12-22-14-38-20-28-12-30-30 6-26 2-42-6-30 6-44 28-10 44-18 18-8 36-8z" fill="${masa}" stroke="${borde}" stroke-width="5"/>
-      <path d="M60 60c10-6 22-8 34-6M140 140c-8 6-20 10-32 10" stroke="${borde}" stroke-width="3" fill="none" opacity=".45" stroke-linecap="round"/>
-      ${chispas}
-    </svg>`;
-
+  // ======= GALLETAS =======
+  // Para cambiar algo: edita nombre, desc o precio. Las fotos están junto a este archivo.
+  // "colores" son los colores de cada galleta: [principal, secundario, toque]
+  // y se usan en el fondo de la foto y en las animaciones al agregar al carrito.
   const PRODUCTOS = [
     {
-      id: "chocolate",
-      nombre: "Galleta de Chocolate",
-      desc: "Suave por dentro y crujiente en la orilla, llena de chispas de chocolate semiamargo que se derriten en cada mordida.",
+      id: "red-velvet",
+      nombre: "Red Velvet",
+      desc: "Masa roja aterciopelada con trozos de chocolate blanco y nuez. Suave por dentro y con la orilla crujiente.",
       precio: 35,
-      img: svgGalleta("#c98d5c", "#8a5a37", `
-        <g fill="#4a2c1a">
-          <path d="M70 70l10-6 8 8-6 10-12-2z"/><path d="M120 60l12 2 2 12-10 6-8-8z"/>
-          <path d="M140 105l10 4-2 12-12 2-4-10z"/><path d="M90 110l10-4 8 8-4 12-12-2z"/>
-          <path d="M60 125l8-6 10 6-2 10-10 2z"/><path d="M110 140l10-2 6 10-8 8-10-6z"/>
-          <path d="M98 40l8 2 0 10-10 2-4-8z"/><path d="M45 95l8-2 4 8-6 8-8-4z"/>
-        </g>`)
+      foto: "red-velvet.jpg",
+      colores: ["#b3122e", "#fff3e0", "#d9a066"]
     },
     {
-      id: "avena",
-      nombre: "Galleta de Avena",
-      desc: "Avena tostada con un toque de canela y azúcar morena. Calientita, rústica y perfecta para acompañar tu café o leche.",
-      precio: 30,
-      img: svgGalleta("#e3b77f", "#a5714a", `
-        <g fill="#f6e2bd" stroke="#c89660" stroke-width="2">
-          <ellipse cx="70" cy="70" rx="10" ry="5" transform="rotate(-25 70 70)"/>
-          <ellipse cx="125" cy="65" rx="9" ry="5" transform="rotate(30 125 65)"/>
-          <ellipse cx="100" cy="100" rx="10" ry="5" transform="rotate(10 100 100)"/>
-          <ellipse cx="140" cy="115" rx="9" ry="5" transform="rotate(-40 140 115)"/>
-          <ellipse cx="65" cy="120" rx="10" ry="5" transform="rotate(45 65 120)"/>
-          <ellipse cx="105" cy="145" rx="9" ry="5" transform="rotate(-15 105 145)"/>
-          <ellipse cx="95" cy="45" rx="8" ry="4" transform="rotate(20 95 45)"/>
-        </g>
-        <g fill="#8a5a37"><circle cx="85" cy="80" r="3"/><circle cx="120" cy="90" r="3"/><circle cx="80" cy="140" r="3"/><circle cx="135" cy="140" r="3"/></g>`)
+      id: "conejito-turin",
+      nombre: "Conejito Turín",
+      desc: "Galleta dorada con trozos de chocolate y un conejito Turín de chocolate con leche encima.",
+      precio: 35,
+      foto: "conejito-turin.jpg",
+      colores: ["#e8b85a", "#9a6b4f", "#f6dfa6"]
     },
     {
-      id: "frutos-rojos",
-      nombre: "Galleta de Frutos Rojos",
-      desc: "Masa de vainilla con trocitos de fresa, frambuesa y arándano, con chocolate blanco. Dulce, frutal y súper suave.",
-      precio: 40,
-      img: svgGalleta("#f4d9a8", "#c79a5e", `
-        <g fill="#d6455d"><circle cx="72" cy="72" r="9"/><circle cx="130" cy="110" r="9"/><circle cx="95" cy="140" r="8"/></g>
-        <g fill="#8e3b7a"><circle cx="125" cy="62" r="8"/><circle cx="62" cy="118" r="8"/><circle cx="145" cy="140" r="6"/></g>
-        <g fill="#fffaf0" stroke="#e8d7b8" stroke-width="2"><rect x="95" y="90" width="12" height="10" rx="2"/><rect x="80" y="50" width="11" height="9" rx="2"/><rect x="115" y="140" width="10" height="9" rx="2"/></g>
-        <g fill="#fff" opacity=".6"><circle cx="69" cy="69" r="2.5"/><circle cx="127" cy="107" r="2.5"/></g>`)
+      id: "vainilla-chocolate",
+      nombre: "Vainilla y Chocolate",
+      desc: "Las clásicas: de vainilla con chispas de chocolate y de chocolate con chispas. ¿Por qué escoger una?",
+      precio: 35,
+      foto: "vainilla-chocolate.jpg",
+      colores: ["#f0d49a", "#5a3524", "#c98d5c"]
+    },
+    {
+      id: "chai",
+      nombre: "Chai",
+      desc: "Con especias de té chai como canela y jengibre, chispas de chocolate blanco y almendra.",
+      precio: 35,
+      foto: "chai.jpg",
+      colores: ["#b8865a", "#f2c879", "#e9d7bd"]
+    },
+    {
+      id: "pretzel",
+      nombre: "Pretzel",
+      desc: "Galleta de vainilla con almendra y un pretzel crujiente encima. El toque perfecto de dulce y salado.",
+      precio: 35,
+      foto: "pretzel.jpg",
+      colores: ["#c8561f", "#f3d9a4", "#e89a4a"]
+    },
+    {
+      id: "choco-oreo",
+      nombre: "Choco Oreo",
+      desc: "Galleta de chocolate intenso con trozos de Oreo y chocolate blanco. Para los más chocolateros.",
+      precio: 35,
+      foto: "choco-oreo.jpg",
+      colores: ["#3a1f17", "#f5f1ea", "#6b3a2a"]
+    },
+    {
+      id: "vainilla-nutella",
+      nombre: "Vainilla Nutella",
+      desc: "Galleta de vainilla con almendra y chocolate blanco, rellena con un corazón de Nutella.",
+      precio: 35,
+      foto: "vainilla-nutella.jpg",
+      colores: ["#f0cf8a", "#4a2418", "#fff6e5"]
     }
   ];
 
@@ -578,8 +700,8 @@
   // ======= PINTAR MENÚ =======
   const listaProductos = document.getElementById("listaProductos");
   listaProductos.innerHTML = PRODUCTOS.map(p => `
-    <article class="producto">
-      <div class="foto">${p.foto ? `<img src="${p.foto}" alt="${p.nombre}" style="width:100%;height:100%;object-fit:cover">` : p.img}</div>
+    <article class="producto" style="--c1:${p.colores[0]};--c2:${p.colores[1]};--c3:${p.colores[2]}">
+      <div class="foto"><img src="${p.foto}" alt="Galleta ${p.nombre}" loading="lazy" width="720" height="720"></div>
       <div class="info">
         <h3>${p.nombre}</h3>
         <p class="desc">${p.desc}</p>
@@ -614,9 +736,9 @@
 
     const fly = document.createElement("div");
     fly.className = "galleta-vuela";
-    fly.innerHTML = p.foto
-      ? `<img src="${p.foto}" alt="" style="object-fit:cover;border-radius:50%">`
-      : p.img;
+    fly.innerHTML = `<img src="${p.foto}" alt="" style="object-fit:cover;border-radius:50%">`;
+    fly.style.borderRadius = "50%";
+    fly.style.boxShadow = `0 0 0 4px ${p.colores[1]}, 0 0 0 7px ${p.colores[0]}, 0 10px 24px ${p.colores[0]}66`;
     fly.style.left = (sx - 35) + "px";
     fly.style.top  = (sy - 35) + "px";
     document.body.appendChild(fly);
@@ -635,6 +757,30 @@
     };
   }
 
+  // Explosión de migajas con los colores de la galleta
+  function chispazo(origen, colores){
+    if (menosMovimiento || !origen) return;
+    const r = origen.getBoundingClientRect();
+    const cx = r.left + r.width / 2, cy = r.top + r.height / 2;
+    for (let i = 0; i < 16; i++) {
+      const m = document.createElement("span");
+      m.className = "migaja";
+      const tam = 6 + Math.random() * 9;
+      m.style.width = m.style.height = tam + "px";
+      m.style.background = colores[i % colores.length];
+      m.style.borderRadius = Math.random() < .5 ? "50%" : "3px";
+      m.style.left = (cx - tam / 2) + "px";
+      m.style.top = (cy - tam / 2) + "px";
+      document.body.appendChild(m);
+      const ang = (Math.PI * 2 * i) / 16 + Math.random() * .4;
+      const dist = 50 + Math.random() * 60;
+      m.animate([
+        { transform: "translate(0,0) rotate(0) scale(1)", opacity: 1 },
+        { transform: `translate(${Math.cos(ang) * dist}px, ${Math.sin(ang) * dist + 30}px) rotate(${Math.random() * 360}deg) scale(.4)`, opacity: 0 }
+      ], { duration: 650 + Math.random() * 250, easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => m.remove();
+    }
+  }
+
   listaProductos.addEventListener("click", e => {
     const b = e.target.closest("[data-agregar]");
     if (!b) return;
@@ -642,12 +788,13 @@
     carrito[id] = (carrito[id] || 0) + 1;
     guardar(); pintarCarrito();
     const p = PRODUCTOS.find(x => x.id === id);
-    aviso(`${p.nombre} agregada 🛒`);
+    aviso(`${p.nombre} agregada 🛒`, p.colores);
     b.classList.add("agregado"); b.textContent = "¡Agregado! ✓";
     // Animaciones de feedback
     reanimar(b, "pop");
     const foto = b.closest(".producto").querySelector(".foto");
     reanimar(foto, "pop");
+    chispazo(b, p.colores);
     volarAlCarrito(foto, p);
     setTimeout(() => { b.classList.remove("agregado"); b.textContent = "Agregar al carrito"; }, 1100);
   });
@@ -696,7 +843,7 @@
     if (borrar) {
       const p = PRODUCTOS.find(x => x.id === borrar.dataset.borrar);
       delete carrito[borrar.dataset.borrar];
-      aviso(`${p.nombre} eliminada 🗑️`);
+      aviso(`${p.nombre} eliminada 🗑️`, p.colores);
     }
     if (mas || menos || borrar) { guardar(); pintarCarrito(); latirContador(); }
   });
@@ -731,9 +878,16 @@
 
   // ======= AVISO =======
   let tAviso;
-  function aviso(txt){
+  function aviso(txt, colores){
     const el = document.getElementById("toast");
     el.textContent = txt; el.classList.add("ver");
+    if (colores) {
+      el.style.setProperty("background", colores[0], "important");
+      el.style.setProperty("color", colores[1], "important");
+      el.style.setProperty("border-color", colores[1], "important");
+    } else {
+      el.style.removeProperty("background"); el.style.removeProperty("color"); el.style.removeProperty("border-color");
+    }
     clearTimeout(tAviso); tAviso = setTimeout(() => el.classList.remove("ver"), 1600);
   }
 
