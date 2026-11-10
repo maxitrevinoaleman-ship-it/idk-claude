@@ -320,6 +320,7 @@
     #listaProductos{display:grid;grid-template-columns:1fr 1fr;gap:20px}
     #listaProductos .producto{margin-bottom:0}
   }
+  .sin-foto{display:flex;align-items:center;justify-content:center;width:100%;height:100%;font-size:5rem;color:transparent;text-shadow:0 0 0 var(--c1)}
 </style>
 </head>
 <body>
@@ -612,7 +613,7 @@
   const listaProductos = document.getElementById("listaProductos");
   listaProductos.innerHTML = PRODUCTOS.map(p => `
     <article class="producto" style="--c1:${p.colores[0]};--c2:${p.colores[1]};--c3:${p.colores[2]}">
-      <div class="foto"><img src="${p.foto}" alt="Galleta ${p.nombre}" loading="lazy" width="720" height="720"></div>
+      <div class="foto"><img src="${p.foto}" alt="Galleta ${p.nombre}" loading="lazy" width="720" height="720" onerror="this.replaceWith(Object.assign(document.createElement('span'),{className:'sin-foto',textContent:'🍪'}))"></div>
       <div class="info">
         <h3>${p.nombre}</h3>
         <p class="desc">${p.desc}</p>
